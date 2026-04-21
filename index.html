@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI時代的最強黑馬：DSE中國文學科</title>
+    <!-- 引入 Noto Serif TC (包含 400, 700, 900 粗細) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 🎨 全面升級：莫蘭迪色系 (Morandi Palette) */
+            --primary: #D2C4A7;   /* 奶茶灰黃 (代替原 Comic Yellow) */
+            --secondary: #90A4AE; /* 霧霾湖綠 (代替原 Comic Cyan) */
+            --accent: #D09E96;    /* 煙灰粉紅 (代替原 Comic Pink) */
+            --purple: #A188A6;    /* 灰調丁香紫 (代替原 Comic Purple) */
+            --blue: #78909C;      /* 莫蘭迪石藍 (代替原 Hero Blue) */
+            --red: #C5837B;       /* 柔和鐵鏽紅 (代替原 Mythbuster Red) */
+            --bg-color: #F0EBE1;  /* 燕麥灰白背景 */
+            --text-color: #4A4A4A;/* 柔和炭灰文字 */
+            --border-color: #423E3B; /* 深炭灰棕 (代替死黑，配合莫蘭迪調性) */
+            --title-color: #9A605A;  /* 標題專屬莫蘭迪紅棕色 */
+            --border-width: 4px;
+        }
+
+        /* 1. 字體全面改用 Noto Serif TC，並保持寬敞行距 */
+        body {
+            font-family: 'Noto Serif TC', serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#d3cfc5 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: var(--text-color);
+            line-height: 1.85; 
+            letter-spacing: 0.05em; 
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        p { margin-bottom: 1.5rem; }
+
+        /* Comic UI Basics (以莫蘭迪色呈現) */
+        .comic-box {
+            background: #FAFAFA;
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: 8px 8px 0px var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .comic-box:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 12px 12px 0px var(--border-color);
+        }
+
+        .comic-title {
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            /* 保持原有粗幼及立體感，但顏色不再是黑色 */
+            text-shadow: 2px 2px 0px #fff, 4px 4px 0px var(--border-color);
+            margin-top: 0;
+        }
+
+        h1, h2, h3, h4 { font-weight: 900; line-height: 1.4; color: var(--border-color); }
+
+        /* Highlight Text Styles */
+        mark {
+            background-color: var(--primary);
+            color: var(--border-color);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 900;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+        mark.cyan { background-color: var(--secondary); color: #fff;}
+        mark.pink { background-color: var(--accent); color: #fff; }
+        mark.yellow { background-color: var(--primary); color: var(--border-color); }
+
+        /* Header Section */
+        header {
+            background-color: var(--primary);
+            border-bottom: var(--border-width) solid var(--border-color);
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #FAFAFA;
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: 10px 10px 0px var(--accent);
+            padding: 30px;
+            transform: rotate(-1deg);
+        }
+
+        .header-content h1 {
+            font-size: 2.5rem;
+            margin: 0 0 15px 0;
+        }
+
+        .header-content p {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+
+        /* 排版神器：引言框與重點資訊框 */
+        .quote-box {
+            font-size: 1.3rem;
+            font-weight: 900;
+            border-left: 6px solid var(--accent);
+            background: #F4EBE9;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .info-panel {
+            background: #EAF0F2;
+            border: 3px dashed var(--secondary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .myth-conclusion {
+            background: #F4F1EA;
+            border-left: 5px solid var(--primary);
+            padding: 15px;
+            font-size: 1.1rem;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* 多媒體排版與標題 */
+        .media-container {
+            margin-top: 35px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .media-item-box {
+            background: #FAFAFA;
+            padding: 20px;
+            border: 3px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 6px 6px 0px #D5D0C6;
+            text-align: center;
+        }
+
+        .media-item-box h4 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            background: var(--primary);
+            display: inline-block;
+            padding: 5px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            transform: rotate(-1deg);
+        }
+
+        .video-wrapper { width: 100%; aspect-ratio: 16 / 9; }
+        .video-wrapper video {
+            width: 100%; height: 100%;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 8px; background: #000;
+        }
+
+        .poster-wrapper img {
+            width: 100%; max-width: 600px;
+            height: auto; border: var(--border-width) solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        /* 專訪按鈕 (莫蘭迪紫) */
+        .article-link {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--purple);
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.2rem;
+            padding: 15px 25px;
+            border: 3px solid var(--border-color);
+            border-radius: 8px;
+            text-decoration: none;
+            box-shadow: 4px 4px 0px var(--border-color);
+            margin-top: 15px;
+            transition: all 0.2s;
+        }
+
+        .article-link:hover {
+            background-color: #8C7392;
+            transform: translate(-3px, -3px);
+            box-shadow: 7px 7px 0px var(--border-color);
+        }
+
+        /* Badges */
+        .badge {
+            background: var(--accent); color: #fff;
+            padding: 5px 15px; border: 3px solid var(--border-color);
+            border-radius: 50px; font-weight: bold;
+            display: inline-block; margin-bottom: 15px;
+            box-shadow: 3px 3px 0px var(--border-color); transform: rotate(-3deg);
+        }
+        .badge.cyan { background: var(--secondary); color: #fff; }
+        .badge.yellow { background: var(--primary); color: var(--border-color); }
+
+        /* 作者彩蛋區 (莫蘭迪石藍) */
+        .author-box {
+            background-color: var(--blue);
+            color: #FAFAFA;
+            border: 5px solid var(--border-color);
+            box-shadow: 10px 10px 0px var(--primary);
+            transform: rotate(1deg);
+        }
+
+        .author-box h3 { color: #FAFAFA; }
+
+        /* 迷思區塊 (莫蘭迪紅) */
+        .myth-container { margin-top: 70px; }
+
+        .myth-item {
+            background: #FAFAFA;
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: 6px 6px 0px var(--border-color);
+            margin-bottom: 20px;
+            display: flex; flex-direction: column; height: 100%;
+        }
+
+        .myth-header {
+            background: var(--red); 
+            color: #fff;
+            padding: 18px;
+            font-weight: 900; font-size: 1.3rem;
+            display: flex; align-items: center; gap: 10px;
+            border-bottom: var(--border-width) solid var(--border-color);
+        }
+
+        .myth-body {
+            padding: 25px; background: #FDFDFD; flex-grow: 1;
+            font-size: 1.05rem;
+        }
+
+        .myth-truth {
+            margin-bottom: 20px; display: block; font-size: 1.15rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #6D6864; color: #fff; text-align: center;
+            padding: 50px 20px; border-top: var(--border-width) solid var(--border-color);
+            margin-top: 60px;
+        }
+        
+        footer h2 { color: #fff; }
+
+        .cta-button {
+            display: inline-block; background: var(--primary);
+            color: var(--border-color); font-size: 1.5rem; font-weight: 900;
+            padding: 15px 40px; text-decoration: none;
+            border: var(--border-width) solid var(--border-color);
+            box-shadow: 6px 6px 0px var(--accent);
+            border-radius: 50px; transition: all 0.2s;
+            transform: rotate(2deg);
+        }
+
+        .cta-button:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 8px 8px 0px var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .header-content { transform: rotate(0deg); }
+            .header-content h1 { font-size: 1.8rem; }
+            .article-link { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="badge">家長必睇</div>
+            <h1>幫阿仔阿女揀科好頭痛？🤯</h1>
+            <p>點解喺AI大爆發嘅時代，<mark class="pink">DSE中國文學科</mark>會成為「最強黑馬」？</p>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- 💡 標題顏色已改為專屬莫蘭迪紅棕色 (var(--title-color))，告別黑色，且粗幼字重 (900) 完美保留 -->
+        <h2 class="comic-title" style="font-size: 2.2rem; text-align: center; margin-bottom: 50px; color: var(--title-color);">💡 揀中國文學嘅三大屈機優勢</h2>
+
+        <div class="comic-box">
+            <div class="badge yellow" style="font-size: 1.2rem;">🌟 核心優勢 1</div>
+            <h3 style="font-size: 1.8rem; color: var(--title-color); margin-bottom: 15px;">🤖 AI世界，語文科先係未來最吃香嘅科目！</h3>
+            
+            <p>好多人以為讀IT先識用AI？NVIDIA CEO 黃仁勳（Jensen Huang）早前明言：</p>
+            
+            <div class="quote-box">
+                <mark>「語言就係AI嘅程式語言！」</mark>
+            </div>
+            
+            <p>未來要同AI溝通，唔洗再寫複雜嘅Code，而係用自然語言！表達能力、邏輯架構越強，指揮AI就越叻。</p>
+            
+            <div class="info-panel">
+                <p>香港中文大學中國語言及文學系系主任潘銘基教授亦都撰文指出，未來掌握生成式AI嘅關鍵，在於下指令（Prompting）時嘅<mark class="cyan">「精確表達」</mark>同<mark class="cyan">「完美邏輯」</mark>。</p>
+                <p>文科生受過文學訓練，擁有豐富情感同想像力，能夠賦予AI「藝術性」嘅引導，寫出有血有肉、唔會千篇一律嘅高質素指令！</p>
+            </div>
+            
+            <p style="font-size: 1.15rem; font-weight: bold;">
+                教授直言：<mark class="pink">「語文能力高低先係駕馭AI嘅要素」</mark>，中文/文學系學生絕對係未來掌握最強大開發工具嘅一群！
+            </p>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="https://www.master-insight.com/article/47927" target="_blank" class="article-link">
+                    👉 點擊閱讀：中大中文系系主任潘銘基教授專訪 📖
+                </a>
+            </div>
+            
+            <div class="media-container">
+                <div class="media-item-box">
+                    <h4>🎬 必睇短片：CEO親自解畫</h4>
+                    <div class="video-wrapper">
+                        <video src="文科的重要.mp4" controls title="黃仁勳：語言才是AI的程式語言"></video>
+                    </div>
+                </div>
+                
+                <div class="media-item-box">
+                    <h4>🖼️ 一圖睇清：語文科點解最吃香？</h4>
+                    <div class="poster-wrapper">
+                        <img src="海報.png" alt="理科生唔夠爭？語文科是未來大學最吃香的科目">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <!-- Point 2 -->
+            <div class="comic-box">
+                <div class="badge cyan">優勢 2</div>
+                <h3 style="font-size: 1.5rem;">📚 買一送一：中文 + 文學 = 超級共力</h3>
+                <p>中文科同文學科嘅思維模式非常接近，兩科都講求閱讀理解同寫作表達。讀文學等於幫中文科<mark>瘋狂補底兼拔尖</mark>！</p>
+                <p><mark class="cyan">「讀一科等於讀兩科」</mark>，溫習時間可以發揮出最大嘅效率，性價比極高！</p>
+            </div>
+
+            <!-- Point 3 -->
+            <div class="comic-box">
+                <div class="badge cyan">優勢 3</div>
+                <h3 style="font-size: 1.5rem;">🧘‍♂️ 大個咗先明：豁達面對人生</h3>
+                <p>讀西西嘅《碗》，學生會明白精神生活原來比物質更重要；讀蘇軾嘅《前赤壁賦》，會領悟到世界唯一不變嘅就係「變」。</p>
+                <p>學識<mark>唔執著，識轉彎</mark>，呢種<mark class="pink">強大嘅心理質素同抗逆力</mark>，係任何補習班都教唔到嘅人生智慧，一生受用！</p>
+            </div>
+        </div>
+
+        <!-- 秘密彩蛋區 -->
+        <div class="comic-box author-box">
+            <h3 style="font-size: 1.8rem; margin-top: 0; text-shadow: 2px 2px 0px var(--border-color);">👨‍🎓 寫畀家長嘅秘密彩蛋...</h3>
+            
+            <p>順帶一提，各位家長而家睇緊嘅呢個<b>有排版、有設計、語氣生動嘅專屬網頁</b>，其實就係由<mark class="yellow">讀中國文學出身嘅我</mark>寫出嚟㗎！</p>
+            
+            <p>我並唔係讀電腦科出身，但我利用文學訓練出嚟嘅<b>精準語言邏輯同文字表達能力</b>，去寫 Prompt（指令）指揮 AI 幫我編寫程式碼，最後成功將我腦海中嘅概念完美呈現出嚟。</p>
+            
+            <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; border-left: 5px solid var(--primary);">
+                <p style="margin: 0; font-size: 1.15rem; font-weight: bold; color: #FAFAFA;">
+                    呢個活生生嘅例子就係最好嘅證明：<mark class="pink">只要文字表達能力夠強，文科生喺 AI 時代絕對可以如魚得水，輕鬆跨界發揮。</mark> 未來，真係文科生嘅世界！
+                </p>
+            </div>
+        </div>
+
+        <!-- 迷思區 -->
+        <div class="myth-container">
+            <h2 class="comic-title" style="font-size: 2.2rem; text-align: center; margin-bottom: 40px; color: var(--title-color);">💥 家長常見迷思 大破解！</h2>
+
+            <div class="grid-2">
+                <!-- Myth 1 -->
+                <div class="myth-item">
+                    <div class="myth-header">❌ 迷思一：文科無出路，讀理科多選擇啲？</div>
+                    <div class="myth-body">
+                        <span class="myth-truth"><mark class="yellow">✅ 真相：大學收生最現實，就係睇「分數」！</mark></span>
+                        <p>係，理科的確可以揀多啲唔同嘅學系，但講到尾，<mark>學生最後都只會入讀一個學系</mark>。</p>
+                        <p>文科一樣有收分極高嘅神科，亦有易入嘅科，選擇絕對夠！最重要係阿仔阿女對呢科有冇興趣、讀得好唔好。</p>
+                        <div class="myth-conclusion">
+                            與其勉強讀理科搞到爛Grade，不如<mark class="cyan">揀自己擅長嘅文學科穩陣拎高分</mark>！
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Myth 2 -->
+                <div class="myth-item">
+                    <div class="myth-header">❌ 迷思二：英文差，用英文讀選修科當學英文？</div>
+                    <div class="myth-body">
+                        <span class="myth-truth"><mark class="yellow">✅ 真相：盞搞到連題目都睇唔明！</mark></span>
+                        <p>好多家長以為用英文讀選修科可以「順便」學英文。其實選修科入面<mark>全是艱深嘅專有名詞</mark>，重點係考「學科知識」而唔係「英文語法」。</p>
+                        <p>如果學生英文本身弱，上堂會聽唔明，考試連題目都解錯！</p>
+                        <div class="myth-conclusion">
+                            相反，讀文學<mark class="pink">起碼冇咗語言理解嘅包袱</mark>，可以直接專注發揮！
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Myth 3 -->
+                <div class="myth-item">
+                    <div class="myth-header">❌ 迷思三：想個仔做醫生護士，讀文學幫唔到手！</div>
+                    <div class="myth-body">
+                        <span class="myth-truth"><mark class="yellow">✅ 真相：拎到靚分，讀文學一樣可以入醫療科！</mark></span>
+                        <p>而家DSE其實無分死文/理科。只要滿足咗特定學系嘅基本選修科要求（例如要有Chemistry），另外嗰科絕對可以<mark>揀自己最拿手嘅文學</mark>！</p>
+                        <p>過往就有同學理科成績只係中等，但靠住中文/文科拎極高分，<mark class="cyan">最後成功考入護理系</mark>！</p>
+                        <div class="myth-conclusion">
+                            如果你仔女理科好，中文又唔差，文學絕對係拉分利器！
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Myth 4 -->
+                <div class="myth-item">
+                    <div class="myth-header">❌ 迷思四：某啲科大學有「加乘」，應該揀嗰啲？</div>
+                    <div class="myth-body">
+                        <span class="myth-truth"><mark class="yellow">✅ 真相：非指定科目，5分文學 = 5分經濟！</mark></span>
+                        <p>有加乘係好著數，但要留意，好多學系只會對「某一兩科」特定科目有加乘。對於其他非限制嘅選修科，大學其實係<mark>一視同仁</mark>。</p>
+                        <p>換言之，喺冇特別加乘嘅學系眼中，<mark class="pink">你經濟考到5分，同文學考到5分，比重係完全一樣嘅</mark>！</p>
+                        <div class="myth-conclusion">
+                            所以，揀最容易幫自己拎到5分嘅科先係王道！
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <h2 style="margin-top: 0; font-size: 2rem;">幫仔女鋪好條路，由揀啱科開始！</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 30px;">唔好再俾傳統觀念框死，DSE文學科絕對係值得投資嘅選擇。</p>
+        <a href="#" class="cta-button">支持子女選修中國文學！🚀</a>
+    </footer>
+
+</body>
+</html>
