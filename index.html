@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* 🎨 全面升級：莫蘭迪色系 (Morandi Palette) */
+            /* 🎨 莫蘭迪色系 (Morandi Palette) */
             --primary: #D2C4A7;   /* 奶茶灰黃 */
             --secondary: #90A4AE; /* 霧霾湖綠 */
             --accent: #D09E96;    /* 煙灰粉紅 */
@@ -22,7 +22,6 @@
             --border-width: 4px;
         }
 
-        /* 1. 字體全面改用 Noto Serif TC，並保持寬敞行距 */
         body {
             font-family: 'Noto Serif TC', serif;
             background-color: var(--bg-color);
@@ -38,7 +37,7 @@
 
         p { margin-bottom: 1.5rem; }
 
-        /* Comic UI Basics (以莫蘭迪色呈現) */
+        /* Comic UI Basics */
         .comic-box {
             background: #FAFAFA;
             border: var(--border-width) solid var(--border-color);
@@ -116,7 +115,7 @@
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
 
-        /* 排版神器：引言框與重點資訊框 */
+        /* 排版神器 */
         .quote-box {
             font-size: 1.3rem;
             font-weight: 900;
@@ -180,45 +179,42 @@
             border-radius: 8px; background: #000;
         }
 
-        /* --- 新增/修改：海報點擊放大相關 CSS --- */
+        /* 海報放大功能 CSS */
         .poster-wrapper img {
             width: 100%; max-width: 600px;
             height: auto; border: var(--border-width) solid var(--border-color);
             border-radius: 8px;
-            cursor: zoom-in; /* 提示可以點擊放大 */
+            cursor: zoom-in; 
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .poster-wrapper img:hover {
-            transform: scale(1.02); /* 滑鼠懸停時微小放大 */
+            transform: scale(1.02); 
             box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
         }
 
-        /* 全屏幕遮罩層設定 */
         .lightbox-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: rgba(0, 0, 0, 0.85); /* 半透明黑色背景 */
+            background-color: rgba(0, 0, 0, 0.85); 
             z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
-            opacity: 0; /* 預設隱藏 */
-            pointer-events: none; /* 隱藏時不可點擊 */
+            opacity: 0; 
+            pointer-events: none; 
             transition: opacity 0.3s ease;
-            cursor: zoom-out; /* 提示點擊可以縮小/關閉 */
+            cursor: zoom-out; 
         }
 
-        /* 遮罩層顯示時的狀態 */
         .lightbox-overlay.active {
             opacity: 1;
             pointer-events: auto;
         }
 
-        /* 放大後的海報設定 */
         .lightbox-overlay img {
             max-width: 90%;
             max-height: 90vh;
@@ -232,9 +228,8 @@
         .lightbox-overlay.active img {
             transform: scale(1);
         }
-        /* --- 點擊放大 CSS 結束 --- */
 
-        /* 專訪按鈕 (莫蘭迪紫) */
+        /* 專訪按鈕 */
         .article-link {
             display: inline-flex;
             align-items: center;
@@ -268,7 +263,7 @@
         .badge.cyan { background: var(--secondary); color: #fff; }
         .badge.yellow { background: var(--primary); color: var(--border-color); }
 
-        /* 作者彩蛋區 (莫蘭迪石藍) */
+        /* 作者彩蛋區 */
         .author-box {
             background-color: var(--blue);
             color: #FAFAFA;
@@ -279,7 +274,7 @@
 
         .author-box h3 { color: #FAFAFA; }
 
-        /* 迷思區塊 (莫蘭迪紅) */
+        /* 迷思區塊 */
         .myth-container { margin-top: 70px; }
 
         .myth-item {
@@ -325,6 +320,7 @@
             box-shadow: 6px 6px 0px var(--accent);
             border-radius: 50px; transition: all 0.2s;
             transform: rotate(2deg);
+            margin-bottom: 30px;
         }
 
         .cta-button:hover {
@@ -332,11 +328,43 @@
             box-shadow: 8px 8px 0px var(--secondary);
         }
 
+        /* --- 新增：QR Code 區塊 CSS --- */
+        .qr-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .qr-card {
+            background: #FAFAFA;
+            padding: 15px 25px;
+            border: 3px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 6px 6px 0px var(--primary);
+            display: inline-block;
+            transform: rotate(-1deg);
+            color: var(--border-color);
+        }
+        
+        .qr-card p {
+            margin: 0 0 10px 0;
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+        
+        .qr-card img {
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+
         @media (max-width: 768px) {
             .grid-2 { grid-template-columns: 1fr; }
             .header-content { transform: rotate(0deg); }
             .header-content h1 { font-size: 1.8rem; }
             .article-link { font-size: 1rem; }
+            .qr-card { transform: rotate(0deg); }
         }
     </style>
 </head>
@@ -392,7 +420,6 @@
                 <div class="media-item-box">
                     <h4>🖼️ 一圖睇清：語文科點解最吃香？</h4>
                     <div class="poster-wrapper">
-                        <!-- 為原圖片加入 id 以供 JavaScript 綁定 -->
                         <img src="海報.png" id="mainPoster" alt="理科生唔夠爭？語文科是未來大學最吃香的科目" title="點擊放大圖片">
                     </div>
                 </div>
@@ -496,28 +523,40 @@
     <footer>
         <h2 style="margin-top: 0; font-size: 2rem;">幫仔女鋪好條路，由揀啱科開始！</h2>
         <p style="font-size: 1.2rem; margin-bottom: 30px;">唔好再俾傳統觀念框死，將來係一個需要文學人才嘅世界！</p>
-        <a href="#" class="cta-button">支持子女選修中國文學！🚀</a>
+        
+        <div>
+            <a href="#" class="cta-button">支持子女選修中國文學！🚀</a>
+        </div>
+
+        <!-- --- 新增：永久有效 QR Code 區塊 --- -->
+        <div class="qr-container">
+            <div class="qr-card">
+                <p>📱 手機掃碼 / 分享畀朋友</p>
+                <!-- 使用 API 動態生成網址對應的 QR Code，免下載圖檔 -->
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=https://kenchan20141.github.io/lit/&margin=5" alt="網站專屬 QR Code">
+                <span style="display: block; margin-top: 8px; font-size: 0.9rem; color: #777;">使用相機掃描以開啟網頁</span>
+            </div>
+        </div>
     </footer>
 
-    <!-- --- 新增：放大圖片的隱藏遮罩層 (Lightbox) --- -->
+    <!-- 放大圖片的隱藏遮罩層 -->
     <div class="lightbox-overlay" id="lightboxOverlay">
         <img src="" alt="放大海報" id="lightboxImage">
     </div>
 
-    <!-- --- 新增：控制點擊放大/縮小的 JavaScript --- -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const mainPoster = document.getElementById("mainPoster");
             const overlay = document.getElementById("lightboxOverlay");
             const lightboxImage = document.getElementById("lightboxImage");
 
-            // 點擊原圖 -> 顯示全屏幕遮罩並賦予圖片來源
+            // 點擊原圖顯示全屏幕
             mainPoster.addEventListener("click", function() {
                 lightboxImage.src = this.src;
                 overlay.classList.add("active");
             });
 
-            // 點擊遮罩層任何地方 -> 關閉/隱藏全屏幕
+            // 點擊遮罩層隱藏全屏幕
             overlay.addEventListener("click", function() {
                 overlay.classList.remove("active");
             });
