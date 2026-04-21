@@ -303,11 +303,11 @@
             margin-bottom: 20px; display: block; font-size: 1.15rem;
         }
 
-        /* --- 新增：AI 聊天室 UI CSS --- */
+        /* --- AI 聊天室 UI CSS --- */
         .chat-widget {
             display: flex;
             flex-direction: column;
-            height: 450px;
+            height: 480px;
             background: #fff;
             border-radius: 8px;
             border: 3px solid var(--border-color);
@@ -384,6 +384,18 @@
         .chat-input-area button:hover {
             background: var(--accent);
             color: #fff;
+        }
+
+        /* 私隱提示字句樣式 */
+        .privacy-notice {
+            background: #FFF9E6;
+            color: #8A6D3B;
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 8px;
+            margin: 0;
+            border-top: 1px solid #EBE4CD;
+            font-weight: 700;
         }
 
         .loading-dots:after {
@@ -471,7 +483,6 @@
         
         <h2 class="comic-title" style="font-size: 2.2rem; text-align: center; margin-bottom: 50px; color: var(--title-color);">💡 揀中國文學嘅三大優勢</h2>
 
-        <!-- (原有優勢內容，保持不變) -->
         <div class="comic-box">
             <div class="badge yellow" style="font-size: 1.2rem;">🌟 核心優勢 1</div>
             <h3 style="font-size: 1.8rem; color: var(--title-color); margin-bottom: 15px;">🤖 AI世界，語文科先係未來最吃香嘅科目！</h3>
@@ -575,7 +586,7 @@
             </div>
         </div>
 
-        <!-- --- 新增：AI 聊天室區塊 --- -->
+        <!-- --- AI 聊天室區塊 --- -->
         <div class="comic-box" style="margin-top: 60px; border-color: var(--secondary);">
             <div class="badge cyan">新功能 🤖</div>
             <h3 style="font-size: 1.8rem; margin-top: 0; color: var(--border-color);">💬 家長AI升學顧問 (24小時解答)</h3>
@@ -591,6 +602,8 @@
                     <input type="text" id="chatInput" placeholder="例如：理科生讀文學會唔會好辛苦？" autocomplete="off" />
                     <button id="sendBtn">發送</button>
                 </div>
+                <!-- 私隱提示 -->
+                <p class="privacy-notice">⚠️ 溫馨提示：為保障私隱，請勿在對話中透露姓名、身份證號碼等個人資料。</p>
             </div>
         </div>
 
@@ -639,7 +652,8 @@
             });
 
             /* --- 2. AI 聊天室功能 --- */
-            const API_KEYS = ["pk_eFlNmo9v1lXOC6Zw"]; 
+            // 包含新舊兩條 API Keys 供隨機輪替使用
+            const API_KEYS = ["pk_eFlNmo9v1lXOC6Zw", "pk_oe8RqRUjeOqQ8Dvj"]; 
             const API_URL = "https://gen.pollinations.ai/v1/chat/completions"; 
             const MODEL = "gemini-search";
 
@@ -674,22 +688,54 @@
                 const typingId = "typing-" + Date.now();
                 appendMessage("ai", "<span class='loading-dots'>思考中</span>", typingId);
 
+                // 3. API Key 隨機抽選與備用機制 (Failover)
+                let firstIndex = Math.floor(Math.random() * API_KEYS.length);
+                let secondIndex = (firstIndex === 0) ? 1 : 0; // 找出另一條備用 Key
+                
+                let primaryKey = API_KEYS[firstIndex];
+                let fallbackKey = API_KEYS[secondIndex];
+
+                const requestOptions = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: messagesHistory
+                    })
+                };
+
+                let response;
+                
                 try {
-                    // 3. 呼叫 API
-                    const response = await fetch(API_URL, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${API_KEYS[0]}`
-                        },
-                        body: JSON.stringify({
-                            model: MODEL,
-                            messages: messagesHistory
-                        })
-                    });
+                    // 嘗試第一條隨機抽取的 Key
+                    requestOptions.headers["Authorization"] = `Bearer ${primaryKey}`;
+                    response = await fetch(API_URL, requestOptions);
+                    
+                    if (!response.ok) {
+                        throw new Error("Primary API Key Failed");
+                    }
+                } catch (error) {
+                    // 如果第一條失敗，後台默默自動轉用第二條 Key 再次嘗試
+                    console.warn("首選 API Key 失效，系統正自動切換至備用 Key...", error);
+                    try {
+                        requestOptions.headers["Authorization"] = `Bearer ${fallbackKey}`;
+                        response = await fetch(API_URL, requestOptions);
+                        
+                        if (!response.ok) {
+                            throw new Error("Fallback API Key Failed");
+                        }
+                    } catch (fallbackError) {
+                        // 如果兩條都失敗，向用戶顯示抱歉訊息
+                        console.error("所有 API Keys 均已失效：", fallbackError);
+                        updateMessage(typingId, "唔好意思，系統而家有啲擠塞，請稍後再試一次！🙏");
+                        return; // 中斷執行
+                    }
+                }
 
-                    if (!response.ok) throw new Error("API 請求失敗");
-
+                // 4. 解析成功取得的資料
+                try {
                     const data = await response.json();
                     let aiReply = data.choices[0].message.content;
 
@@ -701,12 +747,12 @@
                     // 換行處理
                     aiReply = aiReply.replace(/\n/g, '<br>');
 
-                    // 4. 更新 AI 回應
+                    // 5. 更新 AI 回應
                     updateMessage(typingId, aiReply);
 
                 } catch (error) {
-                    console.error(error);
-                    updateMessage(typingId, "唔好意思，系統而家有啲擠塞，請稍後再試一次！🙏");
+                    console.error("資料解析錯誤:", error);
+                    updateMessage(typingId, "唔好意思，系統出現咗啲小錯誤，請重新發問！🙏");
                 }
             }
 
