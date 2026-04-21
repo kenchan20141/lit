@@ -303,6 +303,95 @@
             margin-bottom: 20px; display: block; font-size: 1.15rem;
         }
 
+        /* --- 新增：AI 聊天室 UI CSS --- */
+        .chat-widget {
+            display: flex;
+            flex-direction: column;
+            height: 450px;
+            background: #fff;
+            border-radius: 8px;
+            border: 3px solid var(--border-color);
+            overflow: hidden;
+            margin-top: 20px;
+            font-family: 'Noto Serif TC', serif;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #FDFDFD;
+            background-image: radial-gradient(#ececec 1px, transparent 1px);
+            background-size: 15px 15px;
+        }
+
+        .msg-bubble {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
+        .msg-bubble.ai {
+            align-self: flex-start;
+            background: #EAF0F2;
+            color: var(--text-color);
+            border: 2px solid var(--secondary);
+            border-bottom-left-radius: 0;
+        }
+
+        .msg-bubble.user {
+            align-self: flex-end;
+            background: var(--blue);
+            color: #fff;
+            border: 2px solid var(--border-color);
+            border-bottom-right-radius: 0;
+        }
+
+        .chat-input-area {
+            display: flex;
+            border-top: 3px solid var(--border-color);
+            background: #fff;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            font-size: 1.05rem;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .chat-input-area button {
+            background: var(--primary);
+            color: var(--border-color);
+            font-weight: 900;
+            border: none;
+            border-left: 3px solid var(--border-color);
+            padding: 0 25px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 1.1rem;
+            font-family: inherit;
+        }
+
+        .chat-input-area button:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .loading-dots:after {
+            content: '.';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        @keyframes dots { 0%, 20% { content: '.'; } 40% { content: '..'; } 60% { content: '...'; } 80%, 100% { content: ''; } }
+
         /* Footer */
         footer {
             background: #6D6864; color: #fff; text-align: center;
@@ -328,7 +417,7 @@
             box-shadow: 8px 8px 0px var(--secondary);
         }
 
-        /* --- 新增：QR Code 區塊 CSS --- */
+        /* QR Code 區塊 CSS */
         .qr-container {
             margin-top: 20px;
             display: flex;
@@ -382,6 +471,7 @@
         
         <h2 class="comic-title" style="font-size: 2.2rem; text-align: center; margin-bottom: 50px; color: var(--title-color);">💡 揀中國文學嘅三大優勢</h2>
 
+        <!-- (原有優勢內容，保持不變) -->
         <div class="comic-box">
             <div class="badge yellow" style="font-size: 1.2rem;">🌟 核心優勢 1</div>
             <h3 style="font-size: 1.8rem; color: var(--title-color); margin-bottom: 15px;">🤖 AI世界，語文科先係未來最吃香嘅科目！</h3>
@@ -427,7 +517,6 @@
         </div>
 
         <div class="grid-2">
-            <!-- Point 2 -->
             <div class="comic-box">
                 <div class="badge cyan">優勢 2</div>
                 <h3 style="font-size: 1.5rem;">📚 買一送一：中文 + 文學 = 超級共力</h3>
@@ -435,7 +524,6 @@
                 <p><mark class="cyan">「讀一科等於讀兩科」</mark>，溫習時間可以發揮出最大嘅效率，性價比極高！</p>
             </div>
 
-            <!-- Point 3 -->
             <div class="comic-box">
                 <div class="badge cyan">優勢 3</div>
                 <h3 style="font-size: 1.5rem;">🧘‍♂️ 大個咗先明：豁達面對人生</h3>
@@ -444,27 +532,11 @@
             </div>
         </div>
 
-        <!-- 秘密彩蛋區 -->
-        <div class="comic-box author-box">
-            <h3 style="font-size: 1.8rem; margin-top: 0; text-shadow: 2px 2px 0px var(--border-color);">👨‍🎓 寫畀家長嘅秘密彩蛋...</h3>
-            
-            <p>順帶一提，各位家長而家睇緊嘅呢個<b>有排版、有設計、語氣生動嘅專屬網頁</b>，其實就係由<mark class="yellow">讀中國文學出身嘅我</mark>寫出嚟㗎！</p>
-            
-            <p>我並唔係讀電腦科出身，但我利用文學訓練出嚟嘅<b>精準語言邏輯同文字表達能力</b>，去寫 Prompt（指令）指揮 AI 幫我編寫程式碼，最後成功將我腦海中嘅概念完美呈現出嚟。</p>
-            
-            <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; border-left: 5px solid var(--primary);">
-                <p style="margin: 0; font-size: 1.15rem; font-weight: bold; color: #FAFAFA;">
-                    呢個活生生嘅例子就係最好嘅證明：<mark class="pink">只要文字表達能力夠強，文科生喺 AI 時代絕對可以如魚得水，輕鬆跨界發揮。</mark> 未來，真係文科生嘅世界！
-                </p>
-            </div>
-        </div>
-
         <!-- 迷思區 -->
         <div class="myth-container">
             <h2 class="comic-title" style="font-size: 2.2rem; text-align: center; margin-bottom: 40px; color: var(--title-color);">💥 家長常見迷思 大破解！</h2>
 
             <div class="grid-2">
-                <!-- Myth 1 -->
                 <div class="myth-item">
                     <div class="myth-header">❌ 迷思一：文科無出路，讀理科多選擇啲？</div>
                     <div class="myth-body">
@@ -477,7 +549,6 @@
                     </div>
                 </div>
 
-                <!-- Myth 2 -->
                 <div class="myth-item">
                     <div class="myth-header">❌ 迷思二：英文差，用英文讀選修科當學英文？</div>
                     <div class="myth-body">
@@ -489,31 +560,36 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Myth 3 -->
-                <div class="myth-item">
-                    <div class="myth-header">❌ 迷思三：想個仔做醫生護士，讀文學幫唔到手！</div>
-                    <div class="myth-body">
-                        <span class="myth-truth"><mark class="yellow">✅ 真相：拎到靚分，讀文學一樣可以入醫療科！</mark></span>
-                        <p>而家DSE其實無分死文/理科。只要滿足咗特定學系嘅基本選修科要求（例如要有Chemistry），另外嗰科絕對可以<mark>揀自己最拿手嘅文學</mark>！</p>
-                        <p>過往就有同學理科成績只係中等，但靠住中文/文科拎極高分，<mark class="cyan">最後成功考入護理系</mark>！</p>
-                        <div class="myth-conclusion">
-                            如果你仔女理科好，中文又唔差，文學絕對係拉分利器！
-                        </div>
+        <!-- 秘密彩蛋區 -->
+        <div class="comic-box author-box" style="margin-top: 50px;">
+            <h3 style="font-size: 1.8rem; margin-top: 0; text-shadow: 2px 2px 0px var(--border-color);">👨‍🎓 寫畀家長嘅秘密彩蛋...</h3>
+            <p>順帶一提，各位家長而家睇緊嘅呢個<b>有排版、有設計、語氣生動嘅專屬網頁</b>，其實就係由<mark class="yellow">讀中國文學出身嘅我</mark>寫出嚟㗎！</p>
+            <p>我並唔係讀電腦科出身，但我利用文學訓練出嚟嘅<b>精準語言邏輯同文字表達能力</b>，去寫 Prompt（指令）指揮 AI 幫我編寫程式碼，最後成功將我腦海中嘅概念完美呈現出嚟。</p>
+            <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; border-left: 5px solid var(--primary);">
+                <p style="margin: 0; font-size: 1.15rem; font-weight: bold; color: #FAFAFA;">
+                    呢個活生生嘅例子就係最好嘅證明：<mark class="pink">只要文字表達能力夠強，文科生喺 AI 時代絕對可以如魚得水，輕鬆跨界發揮。</mark> 未來，真係文科生嘅世界！
+                </p>
+            </div>
+        </div>
+
+        <!-- --- 新增：AI 聊天室區塊 --- -->
+        <div class="comic-box" style="margin-top: 60px; border-color: var(--secondary);">
+            <div class="badge cyan">新功能 🤖</div>
+            <h3 style="font-size: 1.8rem; margin-top: 0; color: var(--border-color);">💬 家長AI升學顧問 (24小時解答)</h3>
+            <p style="margin-bottom: 10px;">對中國文學科仲有猶豫？擔心出路？直接喺下面問我啦！我會為你提供客觀、持平嘅選科建議。</p>
+            
+            <div class="chat-widget">
+                <div class="chat-messages" id="chatBox">
+                    <div class="msg-bubble ai">
+                        你好！我係 AI 升學顧問。關於阿仔阿女選修 DSE 中國文學科，你有啲咩迷思或者想了解嘅地方？隨時問我啦！👇
                     </div>
                 </div>
-
-                <!-- Myth 4 -->
-                <div class="myth-item">
-                    <div class="myth-header">❌ 迷思四：某啲科大學有「加乘」，應該揀嗰啲？</div>
-                    <div class="myth-body">
-                        <span class="myth-truth"><mark class="yellow">✅ 真相：非指定科目，5分文學 = 5分經濟！</mark></span>
-                        <p>有加乘係好著數，但要留意，好多學系只會對「某一兩科」特定科目有加乘。對於其他非限制嘅選修科，大學其實係<mark>一視同仁</mark>。</p>
-                        <p>換言之，喺冇特別加乘嘅學系眼中，<mark class="pink">你經濟考到5分，同文學考到5分，比重係完全一樣嘅</mark>！</p>
-                        <div class="myth-conclusion">
-                            所以，揀最容易幫自己拎到5分嘅科先係王道！
-                        </div>
-                    </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chatInput" placeholder="例如：理科生讀文學會唔會好辛苦？" autocomplete="off" />
+                    <button id="sendBtn">發送</button>
                 </div>
             </div>
         </div>
@@ -528,11 +604,10 @@
             <a href="#" class="cta-button">支持子女選修中國文學！🚀</a>
         </div>
 
-        <!-- --- 新增：永久有效 QR Code 區塊 --- -->
+        <!-- 永久有效 QR Code 區塊 -->
         <div class="qr-container">
             <div class="qr-card">
                 <p>📱 手機掃碼 / 分享畀朋友</p>
-                <!-- 使用 API 動態生成網址對應的 QR Code，免下載圖檔 -->
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=https://kenchan20141.github.io/lit/&margin=5" alt="網站專屬 QR Code">
                 <span style="display: block; margin-top: 8px; font-size: 0.9rem; color: #777;">使用相機掃描以開啟網頁</span>
             </div>
@@ -544,21 +619,123 @@
         <img src="" alt="放大海報" id="lightboxImage">
     </div>
 
+    <!-- JavaScript 邏輯區塊 -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            /* --- 1. 圖片點擊放大功能 --- */
             const mainPoster = document.getElementById("mainPoster");
             const overlay = document.getElementById("lightboxOverlay");
             const lightboxImage = document.getElementById("lightboxImage");
 
-            // 點擊原圖顯示全屏幕
-            mainPoster.addEventListener("click", function() {
-                lightboxImage.src = this.src;
-                overlay.classList.add("active");
-            });
+            if (mainPoster) {
+                mainPoster.addEventListener("click", function() {
+                    lightboxImage.src = this.src;
+                    overlay.classList.add("active");
+                });
+            }
 
-            // 點擊遮罩層隱藏全屏幕
             overlay.addEventListener("click", function() {
                 overlay.classList.remove("active");
+            });
+
+            /* --- 2. AI 聊天室功能 --- */
+            const API_KEYS = ["pk_eFlNmo9v1lXOC6Zw"]; 
+            const API_URL = "https://gen.pollinations.ai/v1/chat/completions"; 
+            const MODEL = "gemini-search";
+
+            const chatBox = document.getElementById("chatBox");
+            const chatInput = document.getElementById("chatInput");
+            const sendBtn = document.getElementById("sendBtn");
+
+            // 系統預設人設提示詞
+            let messagesHistory = [
+                {
+                    role: "system",
+                    content: `你是一個專門解答香港DSE高中選科問題的AI顧問，特別是關於「中國文學科」。你的對象是正在為子女苦惱選科的家長。
+規則：
+1. 態度客觀、持平，絕對不能捏造虛構的大學收生數據或不存在的規定。
+2. 你的立場是支持選修文學科的（它能培養同理心、邏輯、高階語文能力，在AI時代很有用），但你不會「盲目支持」。如果家長說子女極度討厭文字、理科極強且志願是工程，你也會給出中肯的建議（例如建議專注理科）。
+3. 使用親切、友善的香港廣東話（口語）回答，讓家長感到親切。
+4. 每次回答盡量簡潔扼要、分段清晰，不要長篇大論。`
+                }
+            ];
+
+            // 處理發送訊息
+            async function sendMessage() {
+                const userText = chatInput.value.trim();
+                if (!userText) return;
+
+                // 1. 顯示用戶訊息
+                appendMessage("user", userText);
+                chatInput.value = "";
+                messagesHistory.push({ role: "user", content: userText });
+
+                // 2. 顯示 AI 思考中
+                const typingId = "typing-" + Date.now();
+                appendMessage("ai", "<span class='loading-dots'>思考中</span>", typingId);
+
+                try {
+                    // 3. 呼叫 API
+                    const response = await fetch(API_URL, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${API_KEYS[0]}`
+                        },
+                        body: JSON.stringify({
+                            model: MODEL,
+                            messages: messagesHistory
+                        })
+                    });
+
+                    if (!response.ok) throw new Error("API 請求失敗");
+
+                    const data = await response.json();
+                    let aiReply = data.choices[0].message.content;
+
+                    // 記錄到歷史
+                    messagesHistory.push({ role: "assistant", content: aiReply });
+
+                    // 簡單處理 Markdown 粗體轉換為 HTML
+                    aiReply = aiReply.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+                    // 換行處理
+                    aiReply = aiReply.replace(/\n/g, '<br>');
+
+                    // 4. 更新 AI 回應
+                    updateMessage(typingId, aiReply);
+
+                } catch (error) {
+                    console.error(error);
+                    updateMessage(typingId, "唔好意思，系統而家有啲擠塞，請稍後再試一次！🙏");
+                }
+            }
+
+            // UI 輔助函數：增加對話泡泡
+            function appendMessage(sender, text, id = null) {
+                const msgDiv = document.createElement("div");
+                msgDiv.className = `msg-bubble ${sender}`;
+                msgDiv.innerHTML = text;
+                if (id) msgDiv.id = id;
+                chatBox.appendChild(msgDiv);
+                chatBox.scrollTop = chatBox.scrollHeight; // 自動捲動到底部
+            }
+
+            // UI 輔助函數：更新對話內容 (用於替換「思考中」)
+            function updateMessage(id, text) {
+                const msgDiv = document.getElementById(id);
+                if (msgDiv) {
+                    msgDiv.innerHTML = text;
+                    msgDiv.removeAttribute("id");
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+            }
+
+            // 綁定點擊與 Enter 鍵事件
+            sendBtn.addEventListener("click", sendMessage);
+            chatInput.addEventListener("keypress", function(e) {
+                if (e.key === "Enter") {
+                    sendMessage();
+                }
             });
         });
     </script>
