@@ -9,15 +9,15 @@
     <style>
         :root {
             /* 🎨 全面升級：莫蘭迪色系 (Morandi Palette) */
-            --primary: #D2C4A7;   /* 奶茶灰黃 (代替原 Comic Yellow) */
-            --secondary: #90A4AE; /* 霧霾湖綠 (代替原 Comic Cyan) */
-            --accent: #D09E96;    /* 煙灰粉紅 (代替原 Comic Pink) */
-            --purple: #A188A6;    /* 灰調丁香紫 (代替原 Comic Purple) */
-            --blue: #78909C;      /* 莫蘭迪石藍 (代替原 Hero Blue) */
-            --red: #C5837B;       /* 柔和鐵鏽紅 (代替原 Mythbuster Red) */
+            --primary: #D2C4A7;   /* 奶茶灰黃 */
+            --secondary: #90A4AE; /* 霧霾湖綠 */
+            --accent: #D09E96;    /* 煙灰粉紅 */
+            --purple: #A188A6;    /* 灰調丁香紫 */
+            --blue: #78909C;      /* 莫蘭迪石藍 */
+            --red: #C5837B;       /* 柔和鐵鏽紅 */
             --bg-color: #F0EBE1;  /* 燕麥灰白背景 */
             --text-color: #4A4A4A;/* 柔和炭灰文字 */
-            --border-color: #423E3B; /* 深炭灰棕 (代替死黑，配合莫蘭迪調性) */
+            --border-color: #423E3B; /* 深炭灰棕 */
             --title-color: #9A605A;  /* 標題專屬莫蘭迪紅棕色 */
             --border-width: 4px;
         }
@@ -59,7 +59,6 @@
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 2px;
-            /* 保持原有粗幼及立體感，但顏色不再是黑色 */
             text-shadow: 2px 2px 0px #fff, 4px 4px 0px var(--border-color);
             margin-top: 0;
         }
@@ -181,11 +180,59 @@
             border-radius: 8px; background: #000;
         }
 
+        /* --- 新增/修改：海報點擊放大相關 CSS --- */
         .poster-wrapper img {
             width: 100%; max-width: 600px;
             height: auto; border: var(--border-width) solid var(--border-color);
             border-radius: 8px;
+            cursor: zoom-in; /* 提示可以點擊放大 */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
+        .poster-wrapper img:hover {
+            transform: scale(1.02); /* 滑鼠懸停時微小放大 */
+            box-shadow: 4px 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* 全屏幕遮罩層設定 */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.85); /* 半透明黑色背景 */
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0; /* 預設隱藏 */
+            pointer-events: none; /* 隱藏時不可點擊 */
+            transition: opacity 0.3s ease;
+            cursor: zoom-out; /* 提示點擊可以縮小/關閉 */
+        }
+
+        /* 遮罩層顯示時的狀態 */
+        .lightbox-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* 放大後的海報設定 */
+        .lightbox-overlay img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 8px;
+            border: var(--border-width) solid var(--primary);
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+            transform: scale(0.9);
+        }
+
+        .lightbox-overlay.active img {
+            transform: scale(1);
+        }
+        /* --- 點擊放大 CSS 結束 --- */
 
         /* 專訪按鈕 (莫蘭迪紫) */
         .article-link {
@@ -305,7 +352,6 @@
 
     <div class="container">
         
-        <!-- 💡 標題顏色已改為專屬莫蘭迪紅棕色 (var(--title-color))，告別黑色，且粗幼字重 (900) 完美保留 -->
         <h2 class="comic-title" style="font-size: 2.2rem; text-align: center; margin-bottom: 50px; color: var(--title-color);">💡 揀中國文學嘅三大優勢</h2>
 
         <div class="comic-box">
@@ -346,7 +392,8 @@
                 <div class="media-item-box">
                     <h4>🖼️ 一圖睇清：語文科點解最吃香？</h4>
                     <div class="poster-wrapper">
-                        <img src="海報.png" alt="理科生唔夠爭？語文科是未來大學最吃香的科目">
+                        <!-- 為原圖片加入 id 以供 JavaScript 綁定 -->
+                        <img src="海報.png" id="mainPoster" alt="理科生唔夠爭？語文科是未來大學最吃香的科目" title="點擊放大圖片">
                     </div>
                 </div>
             </div>
@@ -452,5 +499,29 @@
         <a href="#" class="cta-button">支持子女選修中國文學！🚀</a>
     </footer>
 
+    <!-- --- 新增：放大圖片的隱藏遮罩層 (Lightbox) --- -->
+    <div class="lightbox-overlay" id="lightboxOverlay">
+        <img src="" alt="放大海報" id="lightboxImage">
+    </div>
+
+    <!-- --- 新增：控制點擊放大/縮小的 JavaScript --- -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const mainPoster = document.getElementById("mainPoster");
+            const overlay = document.getElementById("lightboxOverlay");
+            const lightboxImage = document.getElementById("lightboxImage");
+
+            // 點擊原圖 -> 顯示全屏幕遮罩並賦予圖片來源
+            mainPoster.addEventListener("click", function() {
+                lightboxImage.src = this.src;
+                overlay.classList.add("active");
+            });
+
+            // 點擊遮罩層任何地方 -> 關閉/隱藏全屏幕
+            overlay.addEventListener("click", function() {
+                overlay.classList.remove("active");
+            });
+        });
+    </script>
 </body>
 </html>
