@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI時代的黑馬：DSE中國文學科</title>
-    <!-- 引入 Noto Serif TC (包含 400, 700, 900 粗細) -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -543,7 +542,6 @@
             </div>
         </div>
 
-        <!-- 迷思區 -->
         <div class="myth-container">
             <h2 class="comic-title" style="font-size: 2.2rem; text-align: center; margin-bottom: 40px; color: var(--title-color);">💥常見迷思 大破解！</h2>
 
@@ -573,8 +571,7 @@
                 </div>
 
 
- <!-- Myth 3 -->
-                <div class="myth-item">
+ <div class="myth-item">
                     <div class="myth-header">❌ 迷思三：想個仔做醫生護士，讀文學幫唔到手！</div>
                     <div class="myth-body">
                         <span class="myth-truth"><mark class="yellow">✅ 真相：拎到靚分，讀文學一樣可以入醫療科！</mark></span>
@@ -586,7 +583,6 @@
                     </div>
                 </div>
 
-                <!-- Myth 4 -->
                 <div class="myth-item">
                     <div class="myth-header">❌ 迷思四：某啲科大學有「加乘」，應該揀嗰啲？</div>
                     <div class="myth-body">
@@ -604,7 +600,6 @@
             </div>
         </div>
 
-        <!-- 秘密彩蛋區 -->
         <div class="comic-box author-box" style="margin-top: 50px;">
             <h3 style="font-size: 1.8rem; margin-top: 0; text-shadow: 2px 2px 0px var(--border-color);">👨‍🎓 寫畀家長嘅秘密彩蛋...</h3>
             <p>順帶一提，各位家長而家睇緊嘅呢個<b>有排版、有設計、語氣生動嘅專屬網頁</b>，其實就係由<mark class="yellow">讀中國文學出身嘅我</mark>寫出嚟㗎！</p>
@@ -616,7 +611,6 @@
             </div>
         </div>
 
-        <!-- --- AI 聊天室區塊 --- -->
         <div class="comic-box" style="margin-top: 60px; border-color: var(--secondary);">
             <div class="badge cyan">新功能 🤖</div>
             <h3 style="font-size: 1.8rem; margin-top: 0; color: var(--border-color);">💬 家長AI升學顧問 (24小時解答)</h3>
@@ -632,7 +626,6 @@
                     <input type="text" id="chatInput" placeholder="例如：理科生讀文學會唔會好辛苦？" autocomplete="off" />
                     <button id="sendBtn">發送</button>
                 </div>
-                <!-- 私隱提示 -->
                 <p class="privacy-notice">⚠️ 溫馨提示：為保障私隱，請勿在對話中透露姓名、身份證號碼等個人資料。</p>
             </div>
         </div>
@@ -650,12 +643,10 @@
        
     </footer>
 
-    <!-- 放大圖片的隱藏遮罩層 -->
     <div class="lightbox-overlay" id="lightboxOverlay">
         <img src="" alt="放大海報" id="lightboxImage">
     </div>
 
-    <!-- JavaScript 邏輯區塊 -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             /* --- 1. 圖片點擊放大功能 --- */
@@ -841,6 +832,60 @@
                     sendMessage();
                 }
             });
+        });
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // 創建全畫面屏蔽層
+            const blockOverlay = document.createElement('div');
+            blockOverlay.id = 'antiRecordOverlay';
+            blockOverlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#000;color:#fff;z-index:9999999;display:none;justify-content:center;align-items:center;font-size:2.5rem;font-weight:900;text-align:center;flex-direction:column;font-family:sans-serif;';
+            blockOverlay.innerHTML = '<span style="font-size:4rem;margin-bottom:20px;">⚠️</span><p style="margin:0;">偵測到相機或手機設備。</p><p style="font-size:1.5rem;margin-top:10px;color:#aaa;">基於保安理由，網頁內容已即時屏蔽。</p>';
+            document.body.appendChild(blockOverlay);
+
+            // 創建隱藏的影片元素以讀取鏡頭串流
+            const videoElement = document.createElement('video');
+            videoElement.style.display = 'none';
+            videoElement.autoplay = true;
+            videoElement.playsInline = true;
+            document.body.appendChild(videoElement);
+
+            async function initCameraDetection() {
+                try {
+                    // 要求用戶授權開啟鏡頭
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+                    videoElement.srcObject = stream;
+                    
+                    // 載入 COCO-SSD 模型
+                    const model = await cocoSsd.load();
+                    
+                    // 每 1.5 秒透過 AI 檢查一次畫面
+                    setInterval(async () => {
+                        if (videoElement.readyState === 4) {
+                            const predictions = await model.detect(videoElement);
+                            
+                            // 尋找畫面中是否有被判定為「手機」(cell phone) 等拍攝裝置的物件
+                            const isDeviceDetected = predictions.some(p => p.class === 'cell phone');
+                            
+                            if (isDeviceDetected) {
+                                blockOverlay.style.display = 'flex';
+                                document.body.style.overflow = 'hidden'; // 鎖定背景滾動
+                            } else {
+                                blockOverlay.style.display = 'none';
+                                document.body.style.overflow = '';
+                            }
+                        }
+                    }, 1500);
+                } catch (error) {
+                    console.warn("防翻拍系統提示：無法啟用鏡頭偵測功能。原因：用戶可能拒絕了權限、或設備無連接鏡頭。", error);
+                }
+            }
+            
+            // 啟動防護功能
+            initCameraDetection();
         });
     </script>
 </body>
